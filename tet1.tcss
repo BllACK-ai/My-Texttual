@@ -1,0 +1,58 @@
+#page-container {
+    # This hides the scrollbar
+    scrollbar-size: 0 0;
+}
+#container1{
+    border: lime;
+    padding: 1;
+    margin: 1;
+    align: center middle;
+    width: 33.3%;
+    
+}
+#horizontal{
+    # width: 1fr;s
+    # border: lime;
+    # height: 100%;
+}
+.box{
+    width: 1fr;
+    # margin: 1;
+    border: lime;
+    height: 100%;
+}
+Static{
+    padding: 1;
+    text-align: center;
+    color: lime;
+}
+
+Label{
+    align: center middle;
+    width: 100%;
+}
+#input{
+    border: lime;
+}
+#input2{
+    border: lime;
+}
+#input3{
+    border: lime;
+}
+#result{
+    width: 100%;
+    height:auto;
+    border: lime;
+}
+#red{
+    dock: bottom;
+    border: lime;
+
+}
+#eyes{
+    border: lime;
+}
+# #read_me{
+#     border: lime;
+# }
