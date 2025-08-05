@@ -130,6 +130,9 @@ class PagesApp(App):
         
             
             def myapp(numb):
+                for chara in numb:
+                    if chara.isalpha():
+                        return("please input a valid number or fraction")
         
                 numb = str(numb)
             
