@@ -92,7 +92,7 @@ cloud ="""
 """
 counter = 0       
 class PagesApp(App):
-    CSS_PATH = "tet1.tcss"
+    CSS_PATH = "main.tcss"
     def compose(self) -> ComposeResult:
         with Horizontal():
             with Container(id = "container1"):
@@ -102,6 +102,7 @@ class PagesApp(App):
                     yield Static("",id = "result")
                     yield Static(site)
                     yield Static(id = "quotes")
+                    yield Button("EXIT APP", id ="exit")
                     
             with Container(id = "container2"):
                 yield Label("WEATHER APP")
@@ -122,6 +123,7 @@ class PagesApp(App):
                     yield Static(id = "result3")
                     yield Static(id = "quotes")
                     yield Button("read me", id = "red")
+
         
     async def on_input_submitted(self, event: Input.Submitted)->None:
         
@@ -132,7 +134,7 @@ class PagesApp(App):
             def myapp(numb):
                 for chara in numb:
                     if chara.isalpha():
-                        return("please input a valid number or fraction")
+                        return("please input a valid number")
         
                 numb = str(numb)
             
@@ -209,39 +211,62 @@ class PagesApp(App):
             put = myapp(numb)
             output = self.query_one("#result", Static)
             output.update(f"{put}")
-            
+            space_box = self.query_one("#quotes", Static)   
+            word = "chaos is a ladder or so he said"
+            my_space = ""
+            for char in word:
+                my_space += char
+                space_box.update(my_space)
+                await asyncio.sleep(0.04)
         if event.input.id =="input2":
+            
             location = event.value
             import requests
-            
-            keys = "8a7c53f2a92e452680271856251007"
-            base_url = f"http://api.weatherapi.com/v1/current.json?key={keys}&q={location}"
-            response = requests.get(base_url)
-            data = response.json()
-            myData = self.query_one("#result2")
-            result = ""
-            # myData.update("")
-            for key, value in data["location"].items():
-                result += f"{key}: {value}\n"
-                myData.update(result)
-            myData.update("FULL WEATHER REPORT")
-            for i in data["current"]:
+            def weatherApp(location):
+        
+                keys = "8a7c53f2a92e452680271856251007"
+                base_url = f"http://api.weatherapi.com/v1/current.json?key={keys}&q={location}"
+                response = requests.get(base_url)
+                data = response.json()
+                myData = self.query_one("#result2")
+                result = ""
+                for char in location:
+                    if char.isdigit():
+                        myData.update(f"{location} is an invalid location")
+                        return
                 
-                val = data["current"][i]
-                result += f"{i}: {val}\n"
-                myData.update(result)
+                try:
+                    for key, value in data["location"].items():
+                        result += f"{key}: {value}\n"
+                        myData.update(result)
+                    myData.update("FULL WEATHER REPORT")
+                    for i in data["current"]:
+            
+                        val = data["current"][i]
+                        result += f"{i}: {val}\n"
+                        myData.update(result)
+                        # return result
+                except:
+                    myData.update(f"sorry. couldn't find information on location: {location}")
+                    return
+
+            weatherApp(location)
             
         if event.input.id == "input3":
-            name = event.value
+            case = event.value
+            name = case.lower()
             def pal(name, opp):
+                for char in name:
+                    if char.isdigit():
+                        output = (f"your input is not a word\n do better thinking ")
+                        return output
                 
-                # global counter
                 if len(opp) == len(name):
                     if name == opp:
-                        output = (f"{name} is a Palindrome")
+                        output = (f"{case} is a Palindrome")
                         return output
                     else:
-                        output =(f"{name} is not a palindrome")
+                        output =(f"{case} is not a palindrome")
                         return output
                 else:
                     opp += name[-(len(opp)+1)]
@@ -255,33 +280,24 @@ class PagesApp(App):
             
             for char in out_put:
                 Myout_put.update(Myout_put.renderable + char)
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.02)
                 
-        
-        
-        
-        space_box = self.query_one("#quotes", Static)   
-        word = "chaos is a ladder or so he said"
-        space_box.update("")
-        for char in word:
-            
-            space_box.update(space_box.renderable + char)
-            await asyncio.sleep(0.1)
         
     async def on_button_pressed(self, event:Button.Pressed)->None:
         
+        if event.button.id == "exit":
+            self.exit()
+        elif event.button.id =="red":
         
-        
-        
-        reader = self.query_one("#read_me", Static)
-        game_info = "A Palindrome checker checks your inputed words if its spelt \nthe same backwards and such a word is a palindrome"
-        text = ""
-        
+            reader = self.query_one("#read_me", Static)
+            game_info = "A Palindrome checker checks your inputed words if its spelt \nthe same backwards and such a word is a palindrome"
+            text = ""
+            
 
-        for char in game_info:
-            text += char
-            reader.update(text)
-            await asyncio.sleep(0.1)
+            for char in game_info:
+                text += char
+                reader.update(text)
+                await asyncio.sleep(0.03)
                     
             
 if __name__ == "__main__":

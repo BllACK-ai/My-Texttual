@@ -53,6 +53,7 @@ Label{
 #eyes{
     border: lime;
 }
-# #read_me{
-#     border: lime;
-# }
+#exit{
+    dock: bottom;
+    border: lime;
+}
